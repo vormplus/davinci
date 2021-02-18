@@ -102,9 +102,11 @@ Also:
 
 Usage
 ----
-Clone the project. Open Davinci/Assets in with unity or import UnityPackage to your existing project.
+Installation: **Unity Package Manager > Add package from git URL**. Add the following URL: https://github.com/vormplus/davinci.git
 
-You can see lots of examples in Assets/Examples
+Add the following using directive if you want to use Davinci in your C# scripts.
+
+	using com.shamsdev.davinci
 
 Please see Wiki page for more information and examples
 
