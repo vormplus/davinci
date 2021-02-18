@@ -13,7 +13,7 @@ namespace com.shamsdev.davinci
 
     /// <summary>
     /// Davinci - A powerful, esay-to-use image downloading and caching library for Unity in Run-Time
-    /// v 1.2
+    /// v 1.2.1
     /// Developed by ShamsDEV.com
     /// copyright (c) ShamsDEV.com All Rights Reserved.
     /// Licensed under the MIT License.
@@ -266,7 +266,7 @@ namespace com.shamsdev.davinci
             }
             catch (Exception ex)
             {
-                error("Url is not correct.");
+                error("Url is not correct. " + ex);
                 return;
             }
 
@@ -323,42 +323,57 @@ namespace com.shamsdev.davinci
 
         private IEnumerator Downloader()
         {
-            if (enableLog)
+            if (enableLog) {
                 Debug.Log("[Davinci] Download started.");
-
-            var www = new WWW(url);
-
-            while (!www.isDone)
-            {
-                if (www.error != null)
-                {
-                    error("Error while downloading the image : " + www.error);
-                    yield break;
-                }
-
-                progress = Mathf.FloorToInt(www.progress * 100);
-                if (onDownloadProgressChange != null)
-                    onDownloadProgressChange.Invoke(progress);
-
-                if (enableLog)
-                    Debug.Log("[Davinci] Downloading progress : " + progress + "%");
-
-                yield return null;
             }
 
-            if (www.error == null)
-                File.WriteAllBytes(filePath + uniqueHash, www.bytes);
+            using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return webRequest.SendWebRequest();
 
-            www.Dispose();
-            www = null;
+                while (!webRequest.isDone)
+                {
+                    if (webRequest.error != null) {
+                        error("Error while downloading the image : " + webRequest.error);
+                        yield break;
+                    }
 
-            if (onDownloadedAction != null)
-                onDownloadedAction.Invoke();
+                    progress = Mathf.FloorToInt(webRequest.downloadProgress * 100);
+                    if (onDownloadProgressChange != null) {
+                        onDownloadProgressChange.Invoke(progress);
+                    }
 
-            loadSpriteToImage();
+                    if (enableLog) {
+                        Debug.Log("[Davinci] Downloading progress : " + progress + "%");
+                    }
 
-            underProcessDavincies.Remove(uniqueHash);
+                    yield return null;
+
+                }
+
+                if (webRequest.error == null) {
+
+                    Texture2D downloadedTexture = DownloadHandlerTexture.GetContent(webRequest);
+
+                    var jpegBytes = downloadedTexture.EncodeToJPG();
+
+                    File.WriteAllBytes(filePath + uniqueHash, jpegBytes);
+                }
+
+                webRequest.Dispose();
+
+                if (onDownloadedAction != null) {
+                    onDownloadedAction.Invoke();
+                }
+
+                loadSpriteToImage();
+
+                underProcessDavincies.Remove(uniqueHash);
+
+            }
+
         }
+
 
         private void loadSpriteToImage()
         {
