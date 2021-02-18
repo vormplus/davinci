@@ -1,0 +1,42 @@
+{
+    "name": "com.shamsdev.davinci",
+    "version": "1.2.1",
+    "displayName": "Davinci",
+    "description": "A powerful, esay-to-use image downloading and caching library for Unity in Run-Time!",
+    "unity": "2020.1",
+    "samples": [
+        {
+            "displayName": "1- Simple",
+            "description": "Contains a sample to show the basic functionality.",
+            "path": "Samples~/1- Simple"
+        },
+        {
+            "displayName": "2- Placeholders",
+            "description": "Contains a sample to show the basic functionality.",
+            "path": "Samples~/2- Placeholders"
+        },
+        {
+            "displayName": "3- Fading",
+            "description": "Contains a sample to show the basic functionality.",
+            "path": "Samples~/3- Fading"
+        },
+        {
+            "displayName": "4- Callbacks",
+            "description": "Contains a sample to show the basic functionality.",
+            "path": "Samples~/4- Callbacks"
+        },
+        {
+            "displayName": "5- Load as Texture",
+            "description": "Contains a sample to show the basic functionality.",
+            "path": "Samples~/5- Load as Texture"
+        }
+    ],
+    "keywords": [
+        "ui",
+        "image",
+        "cache"
+    ],
+    "author": {
+        "name": "Mohammad Shams, Jan Vantomme"
+    }
+}
