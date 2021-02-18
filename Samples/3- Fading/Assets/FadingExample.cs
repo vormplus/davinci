@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using com.shamsdev.davinci;
 
 public class FadingExample : MonoBehaviour
 {
